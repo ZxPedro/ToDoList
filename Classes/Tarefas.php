@@ -27,9 +27,9 @@ class Tarefas
     {
         try {
             $cmd = $this->pdo->prepare("INSERT INTO tarefas (tarefa, descricao, data) VALUES (:tarefa, :desc, :prazo)");
-            $cmd->bindParam(":tarefa", $tarefa);
-            $cmd->bindParam(":desc", $descricao);
-            $cmd->bindParam(":prazo", $prazo);
+            $cmd->bindParam(":tarefa", $tarefa, PDO::PARAM_STR);
+            $cmd->bindParam(":desc", $descricao, PDO::PARAM_STR);
+            $cmd->bindParam(":prazo", $prazo, PDO::PARAM_STR);
             $cmd->execute();
             return true;
         }catch (PDOException $e){
@@ -57,8 +57,9 @@ class Tarefas
      */
     public function searchTask(string $tarefa): array
     {
+        $tarefa = "%" . $tarefa . "%";
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE tarefa LIKE :tarefa ");
-        $cmd->bindParam(":tarefa", $tarefa);
+        $cmd->bindParam(":tarefa", $tarefa, PDO::PARAM_STR);
         $cmd->execute();
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -71,7 +72,7 @@ class Tarefas
     public function editTask(string $id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
-        $cmd->bindParam(":id", $id);
+        $cmd->bindParam(":id", $id, PDO::PARAM_STR);
         $cmd->execute();
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
