@@ -23,7 +23,7 @@ class Tarefas
      *
      * @return bool
      */
-    public function registerTask($tarefa, $descricao, $prazo): bool
+    public function registerTask(string $tarefa, string $descricao, string $prazo): bool
     {
         try {
             $cmd = $this->pdo->prepare("INSERT INTO tarefas (tarefa, descricao, data) VALUES (:tarefa, :desc, :prazo)");
@@ -50,7 +50,12 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function searchTask($tarefa): array
+    /*
+     * Search task
+     *
+     * @return array
+     */
+    public function searchTask(string $tarefa): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE tarefa LIKE :tarefa ");
         $cmd->bindParam(":tarefa", $tarefa);
@@ -58,7 +63,12 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function editTask($id): array
+    /*
+     * Edit task
+     *
+     * @return array
+     */
+    public function editTask(string $id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
         $cmd->bindParam(":id", $id);
