@@ -47,7 +47,7 @@
                                     <h5 class='card-title'>$tarefa</h5>
                                     <p class='card-text'>$desc</p>
                                     <p class='card-text'>$prazo</p>
-                                    <a href='editar_tarefa.php?id=$id' class='btn btn-success btn-sm'>Editar</a>
+                                    <a href='editar.php?id=$id' class='btn btn-success btn-sm'>Editar</a>
                                     <a href='#' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirma' onclick=" . '"' . "get_dados('$id', '$tarefa')" . '"' . ">Excluir</a>
                                 </div>
                             </div>

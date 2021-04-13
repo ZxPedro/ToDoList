@@ -64,16 +64,5 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /*
-     * Edit task
-     *
-     * @return array
-     */
-    public function editTask(string $id): array
-    {
-        $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
-        $cmd->bindParam(":id", $id, PDO::PARAM_STR);
-        $cmd->execute();
-        return $cmd->fetchAll(PDO::FETCH_ASSOC);
-    }
+
 }
