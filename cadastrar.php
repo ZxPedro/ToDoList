@@ -43,16 +43,11 @@
 
                 $cadastrar = new Tarefas("todolist", "localhost", "root", "");
                 if($cadastrar->registerTask($tarefa, $desc, $prazo) == true){
-                    echo "<div class='alert alert-success' role='alert'>
-                              $tarefa foi cadastrada com sucesso!
-                          </div>";
-                    echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
+                    echo "<div class='alert alert-success' role='alert'>$tarefa foi cadastrada com sucesso!</div>";
                 }else{
-                    echo "<div class='alert alert-danger' role='alert'>
-                              Erro ao cadastrar tarefa!
-                          </div>";
-                    echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
+                    echo "<div class='alert alert-danger' role='alert'>Erro ao cadastrar tarefa! </div>";
                 }
+                echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
             }
         ?>
     </div>
