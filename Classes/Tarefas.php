@@ -64,16 +64,28 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /*
-     * Edit task
-     *
-     * @return array
-     */
-    public function editTask(string $id): array
+    public function editTask($id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
-        $cmd->bindParam(":id", $id, PDO::PARAM_STR);
+        $cmd->bindParam(":id", $id);
         $cmd->execute();
-        return $cmd->fetchAll(PDO::FETCH_ASSOC);
+        return $cmd->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateTask(string $tarefa, string $descricao, string $prazo, string $id): bool
+    {
+        try {
+            $cmd = $this->pdo->prepare("UPDATE tarefas SET tarefa = :tarefa, descricao = :descricao, data = :data WHERE cod = :id");;
+            $cmd->bindParam(":tarefa", $tarefa);
+            $cmd->bindParam(":descricao", $descricao);
+            $cmd->bindParam(":data", $prazo);
+            $cmd->bindParam(":id", $id);
+            $cmd->execute();
+            return true;
+        }catch (PDOException $e){
+            echo ("Erro no banco de dados: ". $e->getMessage());
+            exit();
+        }
+
     }
 }

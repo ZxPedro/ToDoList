@@ -17,16 +17,16 @@
             <div class="col">
                 <form action="cadastrar.php" method="post">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">O que deve ser feito?</label>
-                        <input type="text" class="form-control" name="tarefa" required="">
+                        <label for="tarefa">O que deve ser feito?</label>
+                        <input type="text" class="form-control" name="tarefa" id="tarefa" required="">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Descrição</label>
-                        <input type="text" class="form-control" name="descricao" required="">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" class="form-control" name="descricao" id="descricao" required="">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Prazo</label>
-                        <input type="date" class="form-control" name="prazo" required="">
+                        <label for="prazo">Prazo</label>
+                        <input type="date" class="form-control" name="prazo" id="prazo" required="">
                     </div>
                     <button type="submit" class="btn btn-primary">Enviar</button>
                     <a href="pesquisa.php" class="btn btn-secondary">Pesquisar Tarefas</a>
@@ -43,16 +43,11 @@
 
                 $cadastrar = new Tarefas("todolist", "localhost", "root", "");
                 if($cadastrar->registerTask($tarefa, $desc, $prazo) == true){
-                    echo "<div class='alert alert-success' role='alert'>
-                              $tarefa foi cadastrada com sucesso!
-                          </div>";
-                    echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
+                    echo "<div class='alert alert-success' role='alert'>$tarefa foi cadastrada com sucesso!</div>";
                 }else{
-                    echo "<div class='alert alert-danger' role='alert'>
-                              Erro ao cadastrar tarefa!
-                          </div>";
-                    echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
+                    echo "<div class='alert alert-danger' role='alert'>Erro ao cadastrar tarefa! </div>";
                 }
+                echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/cadastrar.php">';
             }
         ?>
     </div>
