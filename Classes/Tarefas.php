@@ -8,14 +8,10 @@ class Tarefas
     /*
      * Connection to the database
      */
-    public function __construct(string $dbname, string $host , string $user, string $password)
+    public function __construct()
     {
-        try {
-            $this->pdo = new PDO("mysql:dbname=".$dbname.";host=".$host,$user,$password);
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
-            exit();
-        }
+        $this->pdo = new PDO("mysql:dbname=todolist;host=localhost", "root", "");
+
     }
 
     /*
@@ -32,8 +28,8 @@ class Tarefas
             $cmd->bindParam(":prazo", $prazo, PDO::PARAM_STR);
             $cmd->execute();
             return true;
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
+        } catch (PDOException $e) {
+            echo("Erro no banco de dados: " . $e->getMessage());
             exit();
         }
     }
@@ -82,8 +78,8 @@ class Tarefas
             $cmd->bindParam(":id", $id);
             $cmd->execute();
             return true;
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
+        } catch (PDOException $e) {
+            echo("Erro no banco de dados: " . $e->getMessage());
             exit();
         }
 

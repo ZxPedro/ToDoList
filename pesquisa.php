@@ -22,13 +22,13 @@
             </nav>
         </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <?php
             require_once 'Classes/Tarefas.php';
             require_once 'helpers.php';
 
-            $carregar = new Tarefas("todolist", "localhost", "root", "");
+            $carregar = new Tarefas();
             $dados = $carregar->uploadTasks();
 
             if ($_POST['pesquisa']) {
@@ -41,7 +41,7 @@
                     $tarefa = $dados[$i]["tarefa"];
                     $desc = $dados[$i]["descricao"];
                     $prazo = convertDate($dados[$i]["data"]);
-                    echo "<div class='col-sm-6'>
+                    echo "<div class='col-sm-4'>
                             <div class='card'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$tarefa</h5>
@@ -68,7 +68,7 @@
                         </button>
                     </div>
 
-                    <form action="excluir_script.php" method="post">
+                    <form action="" method="post">
                         <div class="modal-body">
                             <p>Você deseja excluir a tarefa: <strong id="nome_tarefa">nome da tarefa</strong>?
                             </p>
