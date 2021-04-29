@@ -5,7 +5,6 @@ class Tarefas
 {
     private $pdo;
 
-
     /**
      * Tarefas constructor.
      */
@@ -67,7 +66,7 @@ class Tarefas
     public function editTask($id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
-        $cmd->bindParam(":id", $id);
+        $cmd->bindParam(":id", $id, PDO::PARAM_STR);
         $cmd->execute();
         return $cmd->fetch(PDO::FETCH_ASSOC);
     }
@@ -83,10 +82,10 @@ class Tarefas
     {
         try {
             $cmd = $this->pdo->prepare("UPDATE tarefas SET tarefa = :tarefa, descricao = :descricao, data = :data WHERE cod = :id");;
-            $cmd->bindParam(":tarefa", $tarefa);
-            $cmd->bindParam(":descricao", $descricao);
-            $cmd->bindParam(":data", $prazo);
-            $cmd->bindParam(":id", $id);
+            $cmd->bindParam(":tarefa", $tarefa, PDO::PARAM_STR);
+            $cmd->bindParam(":descricao", $descricao, PDO::PARAM_STR);
+            $cmd->bindParam(":data", $prazo, PDO::PARAM_STR);
+            $cmd->bindParam(":id", $id, PDO::PARAM_STR);
             $cmd->execute();
             return true;
         } catch (PDOException $e) {
@@ -103,7 +102,7 @@ class Tarefas
     {
         try {
             $cmd = $this->pdo->prepare("DELETE FROM tarefas WHERE cod = :id");;
-            $cmd->bindParam(":id", $id);
+            $cmd->bindParam(":id", $id, PDO::PARAM_STR);
             $cmd->execute();
             return true;
         } catch (PDOException $e) {
