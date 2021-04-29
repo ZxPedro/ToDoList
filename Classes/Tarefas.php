@@ -5,7 +5,6 @@ class Tarefas
 {
     private $pdo;
 
-
     /**
      * Tarefas constructor.
      */
