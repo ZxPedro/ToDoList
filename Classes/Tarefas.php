@@ -5,22 +5,21 @@ class Tarefas
 {
     private $pdo;
 
-    /*
-     * Connection to the database
+
+    /**
+     * Tarefas constructor.
      */
-    public function __construct(string $dbname, string $host , string $user, string $password)
+    public function __construct()
     {
-        try {
-            $this->pdo = new PDO("mysql:dbname=".$dbname.";host=".$host,$user,$password);
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
-            exit();
-        }
+        $this->pdo = new PDO("mysql:dbname=todolist;host=localhost", "root", "");
+
     }
 
-    /*
-     * Task Registration
-     *
+
+    /**
+     * @param string $tarefa
+     * @param string $descricao
+     * @param string $prazo
      * @return bool
      */
     public function registerTask(string $tarefa, string $descricao, string $prazo): bool
@@ -32,15 +31,13 @@ class Tarefas
             $cmd->bindParam(":prazo", $prazo, PDO::PARAM_STR);
             $cmd->execute();
             return true;
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
+        } catch (PDOException $e) {
+            echo("Erro no banco de dados: " . $e->getMessage());
             exit();
         }
     }
 
-    /*
-     * Upload tasks
-     *
+    /**
      * @return array
      */
     public function uploadTasks(): array
@@ -50,9 +47,8 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /*
-     * Search task
-     *
+    /**
+     * @param string $tarefa
      * @return array
      */
     public function searchTask(string $tarefa): array
@@ -64,6 +60,10 @@ class Tarefas
         return $cmd->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function editTask($id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
@@ -72,6 +72,13 @@ class Tarefas
         return $cmd->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param string $tarefa
+     * @param string $descricao
+     * @param string $prazo
+     * @param string $id
+     * @return bool
+     */
     public function updateTask(string $tarefa, string $descricao, string $prazo, string $id): bool
     {
         try {
@@ -82,10 +89,26 @@ class Tarefas
             $cmd->bindParam(":id", $id);
             $cmd->execute();
             return true;
-        }catch (PDOException $e){
-            echo ("Erro no banco de dados: ". $e->getMessage());
+        } catch (PDOException $e) {
+            echo("Erro no banco de dados: " . $e->getMessage());
             exit();
         }
+    }
 
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function deleteTask(string $id): bool
+    {
+        try {
+            $cmd = $this->pdo->prepare("DELETE FROM tarefas WHERE cod = :id");;
+            $cmd->bindParam(":id", $id);
+            $cmd->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo("Erro no banco de dados: " . $e->getMessage());
+            exit();
+        }
     }
 }

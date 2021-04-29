@@ -4,7 +4,7 @@ require_once 'helpers.php';
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $editar = new Tarefas("todolist", "localhost", "root", "");
+    $editar = new Tarefas();
     $dados = $editar->editTask($id);
 
     if (count($dados) > 0) {
@@ -61,7 +61,7 @@ if(isset($_GET['id'])){
             $desc = $_POST['descricao'];
             $prazo = $_POST['prazo'];
 
-            $atualizar = new Tarefas("todolist", "localhost", "root", "");
+            $atualizar = new Tarefas();
             if ($atualizar->updateTask($tarefa, $desc, $prazo, $id) == true) {
                 echo "<div class='alert alert-success' role='alert'>Tarefa foi editada com sucesso!</div>";
             } else {

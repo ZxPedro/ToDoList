@@ -41,8 +41,8 @@
                 $desc = $_POST['descricao'];
                 $prazo = $_POST['prazo'];
 
-                $cadastrar = new Tarefas("todolist", "localhost", "root", "");
-                if($cadastrar->registerTask($tarefa, $desc, $prazo) == true){
+                $cadastrar = new Tarefas();
+                if($cadastrar->registerTask($tarefa, $desc, $prazo)){
                     echo "<div class='alert alert-success' role='alert'>$tarefa foi cadastrada com sucesso!</div>";
                 }else{
                     echo "<div class='alert alert-danger' role='alert'>Erro ao cadastrar tarefa! </div>";
