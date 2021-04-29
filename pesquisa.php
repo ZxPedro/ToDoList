@@ -47,7 +47,7 @@
                                     <h5 class='card-title'>$tarefa</h5>
                                     <p class='card-text'>$desc</p>
                                     <p class='card-text'>$prazo</p>
-                                    <a href='editar.php?id=$id' class='btn btn-success btn-sm'>Editar</a>
+                                    <a href='editar.php?id=$id' class='btn btn-success btn-sm'>Editar</a>               
                                     <a href='#' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirma' onclick=" . '"' . "get_dados('$id', '$tarefa')" . '"' . ">Excluir</a>
                                 </div>
                             </div>
@@ -56,8 +56,6 @@
             }
             ?>
         </div>
-
-
         <div class="modal" tabindex="-1" id="confirma">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -67,8 +65,15 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
-                    <form action="" method="post">
+                    <form action="pesquisa.php" method="post">
+                        <?php
+                            if(isset($_POST['id'])){
+                                $id_tarefa = $_POST['id'];
+                                $deletar = new Tarefas();
+                                $deletar->deleteTask($id_tarefa);
+                                echo '   <meta http-equiv="refresh" content="1; url=http://localhost:8000/pesquisa.php">';
+                            }
+                        ?>
                         <div class="modal-body">
                             <p>Você deseja excluir a tarefa: <strong id="nome_tarefa">nome da tarefa</strong>?
                             </p>
@@ -76,14 +81,20 @@
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-success" value="Confirmar">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <input type="text" id="tarefa_excluir" name="tarefa" value="">
-                            <input type="text" id="tarefa_id" name="id" value="">
+                            <input type="hidden" id="tarefa_id" name="id" value="">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function get_dados(id, tarefa){
+            document.getElementById('nome_tarefa').innerHTML = tarefa;
+            document.getElementById('tarefa_id').value = id;
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     </body>
