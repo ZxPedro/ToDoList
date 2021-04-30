@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,31 +25,44 @@
         </div>
     </div>
     <div class="container-fluid">
+    <div class="row">
+        <div class="col">
+        <?php
+            if(isset($_GET['status'])) {
+                $message = $_GET['status'] == 1 
+                        ? 'Task registrada!'
+                        : 'Houve um problema no registro!';
+
+                echo '<div class="alert alert-info">'. $message .'</div>';
+                    
+            }
+        ?>
+        </div>
+    </div>
         <div class="row">
             <?php
+            
             require_once 'Classes/Tarefas.php';
             require_once 'helpers.php';
 
-            $carregar = new Tarefas();
-            $dados = $carregar->uploadTasks();
+            $model = new Tarefas();
+            $tasks = $model->getTasks();
 
             if ($_POST['pesquisa']) {
                 $pesquisa = $_POST['pesquisa'];
-                $dados = $carregar->searchTask($pesquisa);
+                $tasks = $model->searchTask($pesquisa);
             }
-            if (count($dados) > 0) {
-                for ($i = 0; $i < count($dados); $i++) {
-                    $id = $dados[$i]["cod"];
-                    $tarefa = $dados[$i]["tarefa"];
-                    $desc = $dados[$i]["descricao"];
-                    $prazo = convertDate($dados[$i]["data"]);
+            if (count($tasks)) {
+
+                foreach ($tasks as $task) {
+                    $task['data'] = convertDate($task['data']);
                     echo "<div class='col-sm-4'>
                             <div class='card'>
                                 <div class='card-body'>
-                                    <h5 class='card-title'>$tarefa</h5>
-                                    <p class='card-text'>$desc</p>
-                                    <p class='card-text'>$prazo</p>
-                                    <a href='editar.php?id=$id' class='btn btn-success btn-sm'>Editar</a>               
+                                    <h5 class='card-title'>". $task['tarefa'] ."</h5>
+                                    <p class='card-text'>". $task['descricao'] ."</p>
+                                    <p class='card-text'>". $task['data'] ."</p>
+                                    <a href='editar.php?id=". $task['id'] ."' class='btn btn-success btn-sm'>Editar</a>               
                                     <a href='#' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirma' onclick=" . '"' . "get_dados('$id', '$tarefa')" . '"' . ">Excluir</a>
                                 </div>
                             </div>
@@ -68,9 +83,9 @@
                     <form action="pesquisa.php" method="post">
                         <?php
                             if(isset($_POST['id'])){
-                                $id_tarefa = $_POST['id'];
-                                $deletar = new Tarefas();
-                                $deletar->deleteTask($id_tarefa);
+                                $id = $_POST['id'];
+                                $model = new Tarefas();
+                                $model->deleteTask($id);
                                 echo '   <meta http-equiv="refresh" content="1; url=http://localhost:8000/pesquisa.php">';
                             }
                         ?>

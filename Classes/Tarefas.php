@@ -10,8 +10,14 @@ class Tarefas
      */
     public function __construct()
     {
-        $this->pdo = new PDO("mysql:dbname=todolist;host=localhost", "root", "");
-
+        
+        try {
+            $config = require('config.php');
+            $this->pdo = new PDO("mysql:dbname=" . $config['database']. ";host=" . $config['host'],$config['username'] , $config['password']);
+        } catch(PDOException $e) {
+            die('Conexão recusada. ' . $e->getMessage());
+        }
+        
     }
 
 
@@ -39,7 +45,7 @@ class Tarefas
     /**
      * @return array
      */
-    public function uploadTasks(): array
+    public function getTasks(): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas");
         $cmd->execute();
@@ -63,12 +69,12 @@ class Tarefas
      * @param $id
      * @return array
      */
-    public function editTask($id): array
+    public function getTask($id)
     {
-        $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE cod = :id");
-        $cmd->bindParam(":id", $id, PDO::PARAM_STR);
+        $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE id = :id");
+        $cmd->bindParam(":id", $id, PDO::PARAM_INT);
         $cmd->execute();
-        return $cmd->fetch(PDO::FETCH_ASSOC);
+        return $cmd->fetch(PDO::FETCH_ASSOC) ?? [];
     }
 
     /**
@@ -78,19 +84,19 @@ class Tarefas
      * @param string $id
      * @return bool
      */
-    public function updateTask(string $tarefa, string $descricao, string $prazo, string $id): bool
+    public function updateTask(int $id, string $tarefa, string $descricao, string $prazo): bool
     {
         try {
-            $cmd = $this->pdo->prepare("UPDATE tarefas SET tarefa = :tarefa, descricao = :descricao, data = :data WHERE cod = :id");;
+            $cmd = $this->pdo->prepare("UPDATE tarefas SET tarefa = :tarefa, descricao = :descricao, data = :data WHERE id = :id");;
             $cmd->bindParam(":tarefa", $tarefa, PDO::PARAM_STR);
             $cmd->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $cmd->bindParam(":data", $prazo, PDO::PARAM_STR);
-            $cmd->bindParam(":id", $id, PDO::PARAM_STR);
+            $cmd->bindParam(":id", $id, PDO::PARAM_INT);
             $cmd->execute();
             return true;
         } catch (PDOException $e) {
             echo("Erro no banco de dados: " . $e->getMessage());
-            exit();
+            return false;
         }
     }
 
@@ -101,7 +107,7 @@ class Tarefas
     public function deleteTask(string $id): bool
     {
         try {
-            $cmd = $this->pdo->prepare("DELETE FROM tarefas WHERE cod = :id");;
+            $cmd = $this->pdo->prepare("DELETE FROM tarefas WHERE id = :id");;
             $cmd->bindParam(":id", $id, PDO::PARAM_STR);
             $cmd->execute();
             return true;
@@ -111,3 +117,6 @@ class Tarefas
         }
     }
 }
+
+
+
