@@ -2,16 +2,14 @@
 require_once 'Classes/Tarefas.php';
 require_once 'helpers.php';
 
+
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $editar = new Tarefas();
-    $dados = $editar->editTask($id);
+    $model = new Tarefas();
+    $dados = $model->getTask($id);
 
-    if (count($dados) > 0) {
-        $id = $dados["cod"];
-        $tarefa = $dados["tarefa"];
-        $desc = $dados["descricao"];
-        $prazo =$dados["data"];
+    if (!$dados) {
+        die('sai daqui mano para de zoar meu sistema.');        
     }
 }
 ?>
@@ -34,20 +32,20 @@ if(isset($_GET['id'])){
 <div class="container">
     <div class="row">
         <div class="col">
-            <form action="editar.php" method="post">
+            <form action="updateTask.php" method="post">
                 <div class="form-group">
                     <label for="tarefa">O que deve ser feito?</label>
-                    <input type="text" class="form-control" name="tarefa" id="tarefa" required="" value="<?php echo $tarefa ?>">
+                    <input type="text" class="form-control" name="tarefa" id="tarefa" required="" value="<?= $dados['tarefa'] ?>">
                 </div>
                 <div class="form-group">
                     <label for="descricao">Descrição</label>
-                    <input type="text" class="form-control" name="descricao" id="descricao" required="" value="<?php echo $desc ?>">
+                    <input type="text" class="form-control" name="descricao" id="descricao" required="" value="<?= $dados['descricao'] ?>">
                 </div>
                 <div class="form-group">
                     <label for="prazo">Prazo</label>
-                    <input type="date" class="form-control" name="prazo" id="prazo" required="" value="<?php echo $prazo ?>">
+                    <input type="date" class="form-control" name="data" id="prazo" required="" value="<?= $dados['data'] ?>">
                 </div>
-                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="id" value="<?= $dados['id'] ?>">
                 <button type="submit" class="btn btn-primary">Enviar</button>
                 <a href="pesquisa.php" class="btn btn-secondary">Voltar</a>
             </form>
