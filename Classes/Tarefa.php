@@ -69,7 +69,7 @@ class Tarefas
      * @param $id
      * @return array
      */
-    public function getTask($id)
+    public function getTask($id): array
     {
         $cmd = $this->pdo->prepare("SELECT * FROM tarefas WHERE id = :id");
         $cmd->bindParam(":id", $id, PDO::PARAM_INT);
@@ -81,7 +81,7 @@ class Tarefas
      * @param string $tarefa
      * @param string $descricao
      * @param string $prazo
-     * @param string $id
+     * @param int $id
      * @return bool
      */
     public function updateTask(int $id, string $tarefa, string $descricao, string $prazo): bool
@@ -101,14 +101,14 @@ class Tarefas
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return bool
      */
-    public function deleteTask(string $id): bool
+    public function deleteTask(int $id): bool
     {
         try {
             $cmd = $this->pdo->prepare("DELETE FROM tarefas WHERE id = :id");;
-            $cmd->bindParam(":id", $id, PDO::PARAM_STR);
+            $cmd->bindParam(":id", $id, PDO::PARAM_INT);
             $cmd->execute();
             return true;
         } catch (PDOException $e) {
