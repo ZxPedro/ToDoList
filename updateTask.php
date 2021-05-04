@@ -1,13 +1,13 @@
 <?php
-require_once './Classes/Tarefas.php';
+require_once './Classes/Tarefa.php';
 
-$model = new Tarefas();
+$model = new Tarefa();
 $id = $_POST['id'];
 
 $model->getTask($id);
 
 if (!$model) {
-    die('vaza do meu sistema');
+    die('Tarefa não encontrada');
 }
 
 $tarefa = $_POST['tarefa'];
