@@ -1,14 +1,9 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <title>To Do List - Pesquisar tarefa</title>
 </head>
 <body>
@@ -30,30 +25,26 @@
         <?php
             if(isset($_GET['status'])) {
                 $message = $_GET['status'] == 1 
-                        ? 'Task registrada!'
-                        : 'Houve um problema no registro!';
-
+                        ? 'Ação realizada com sucesso!'
+                        : 'Houve um problema ao realizar a ação!';
                 echo '<div class="alert alert-info">'. $message .'</div>';
-                    
             }
         ?>
         </div>
     </div>
         <div class="row">
             <?php
-            
-            require_once 'Classes/Tarefas.php';
+            require_once 'Classes/Tarefa.php';
             require_once 'helpers.php';
 
-            $model = new Tarefas();
+            $model = new Tarefa();
             $tasks = $model->getTasks();
 
-            if ($_POST['pesquisa']) {
+            if (isset($_POST['pesquisa'])) {
                 $pesquisa = $_POST['pesquisa'];
                 $tasks = $model->searchTask($pesquisa);
             }
             if (count($tasks)) {
-
                 foreach ($tasks as $task) {
                     $task['data'] = convertDate($task['data']);
                     echo "<div class='col-sm-4'>
@@ -63,7 +54,7 @@
                                     <p class='card-text'>". $task['descricao'] ."</p>
                                     <p class='card-text'>". $task['data'] ."</p>
                                     <a href='editar.php?id=". $task['id'] ."' class='btn btn-success btn-sm'>Editar</a>               
-                                    <a href='#' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirma' onclick=" . '"' . "get_dados('$id', '$tarefa')" . '"' . ">Excluir</a>
+                                    <a href='#' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirma' onclick=" . '"' . "get_dados({$task['id']},'{$task['tarefa']}')" . '"' . ">Excluir</a>
                                 </div>
                             </div>
                     </div>";
@@ -80,15 +71,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="pesquisa.php" method="post">
-                        <?php
-                            if(isset($_POST['id'])){
-                                $id = $_POST['id'];
-                                $model = new Tarefas();
-                                $model->deleteTask($id);
-                                echo '   <meta http-equiv="refresh" content="1; url=http://localhost:8000/pesquisa.php">';
-                            }
-                        ?>
+                    <form action="deleteTask.php" method="post">
                         <div class="modal-body">
                             <p>Você deseja excluir a tarefa: <strong id="nome_tarefa">nome da tarefa</strong>?
                             </p>

@@ -1,15 +1,15 @@
 <?php
-require_once 'Classes/Tarefas.php';
+require_once 'Classes/Tarefa.php';
 require_once 'helpers.php';
 
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $model = new Tarefas();
+    $model = new Tarefa();
     $dados = $model->getTask($id);
 
     if (!$dados) {
-        die('sai daqui mano para de zoar meu sistema.');        
+        die('Tarefa não encontrada.');
     }
 }
 ?>
@@ -51,23 +51,6 @@ if(isset($_GET['id'])){
             </form>
         </div>
     </div>
-    <?php
-
-        if (isset($_POST['tarefa'])) {
-            $id = $_POST['id'];
-            $tarefa = $_POST['tarefa'];
-            $desc = $_POST['descricao'];
-            $prazo = $_POST['prazo'];
-
-            $atualizar = new Tarefas();
-            if ($atualizar->updateTask($tarefa, $desc, $prazo, $id) == true) {
-                echo "<div class='alert alert-success' role='alert'>Tarefa foi editada com sucesso!</div>";
-            } else {
-                echo "<div class='alert alert-danger' role='alert'>Erro ao editar tarefa! </div>";
-            }
-            echo '   <meta http-equiv="refresh" content="2; url=http://localhost:8000/pesquisa.php">';
-        }
-    ?>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
