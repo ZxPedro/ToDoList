@@ -1,12 +1,12 @@
 <?php
 
 
-class Tarefas
+class Tarefa
 {
     private $pdo;
 
     /**
-     * Tarefas constructor.
+     * Tarefa constructor.
      */
     public function __construct()
     {

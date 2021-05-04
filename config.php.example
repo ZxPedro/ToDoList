@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'host' => 'localhost',
-    'database' => 'dev_todolist',
-    'username' => 'pphe4rt',
-    'password' => 'supersecretphp'
+    'host' => '',
+    'database' => '',
+    'username' => '',
+    'password' => ''
 ];

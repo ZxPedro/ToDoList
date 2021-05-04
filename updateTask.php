@@ -1,5 +1,5 @@
 <?php
-require_once './Classes/Tarefa.php';
+require_once 'Classes/Tarefa.php';
 
 $model = new Tarefa();
 $id = $_POST['id'];
